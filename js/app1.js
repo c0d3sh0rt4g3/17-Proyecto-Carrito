@@ -2,13 +2,25 @@ const addToCartButton = document.querySelectorAll(".button-primary")
 const emptyCartButton = document.querySelector("#vaciar-carrito")
 let tbody = document.querySelector("#lista-carrito tbody")
 
+if (!(localStorage.getItem("coursesInCart"))){
+    localStorage.setItem("coursesInCart", JSON.stringify([]))
+}
+const coursesInCart = JSON.parse(localStorage.getItem("coursesInCart"))
+
+document.addEventListener("DOMContentLoaded", () =>{
+    coursesInCart.forEach(course =>{
+        addToCart(course)
+    })
+})
+
 addToCartButton.forEach(addButton =>{
     addButton.addEventListener("click", () =>{
         const clickedElementId = addButton.getAttribute("data-id")
         const infoCard = document.querySelectorAll(".card")
         const courseChosen = infoCard[clickedElementId - 1]
         const courseData = chosenCourseData(courseChosen)
-
+        coursesInCart.push(courseData)
+        localStorage.setItem("coursesInCart", JSON.stringify(coursesInCart))
         addToCart(courseData)
     })
 })
@@ -66,6 +78,7 @@ const addToCart = (courseData) => {
         deleteButton.textContent = 'x'
         deleteButton.classList.add("borrar-curso")
         deleteButton.addEventListener('click', () => {
+            deleteCourseFromLocalStorage(courseData.title)
             newRow.remove()
         })
         deleteButtonCell.appendChild(deleteButton)
@@ -77,4 +90,13 @@ const emptyCart = () => {
     while (tbody.firstChild){
         tbody.firstChild.remove()
     }
+    localStorage.removeItem("coursesInCart")
+}
+const deleteCourseFromLocalStorage = (courseTitle) =>{
+    for (let i = coursesInCart.length - 1; i >= 0; i--) {
+        if (coursesInCart[i].title === courseTitle) {
+            coursesInCart.splice(i, 1)
+        }
+    }
+    localStorage.setItem("coursesInCart", JSON.stringify(coursesInCart))
 }
