@@ -1,10 +1,15 @@
 const addToCartButton = document.querySelectorAll(".button-primary")
 const emptyCartButton = document.querySelector("#vaciar-carrito")
 let tbody = document.querySelector("#lista-carrito tbody")
+const allCourses = document.querySelectorAll(".card")
+const searchBar = document.querySelector("#buscador")
+const searchForm = document.querySelector("#busqueda")
+const coursesContainer = document.querySelector(".row")
 
 if (!(localStorage.getItem("coursesInCart"))){
     localStorage.setItem("coursesInCart", JSON.stringify([]))
 }
+
 const coursesInCart = JSON.parse(localStorage.getItem("coursesInCart"))
 
 document.addEventListener("DOMContentLoaded", () =>{
@@ -23,6 +28,12 @@ addToCartButton.forEach(addButton =>{
         localStorage.setItem("coursesInCart", JSON.stringify(coursesInCart))
         addToCart(courseData)
     })
+})
+
+searchForm.addEventListener("submit", (e) =>{
+    e.preventDefault()
+    const coursesToShow = filterCourses(searchBar.value)
+    displayFilteredCourses(coursesToShow)
 })
 
 emptyCartButton.addEventListener("click", () =>{
@@ -50,7 +61,7 @@ const addToCart = (courseData) => {
             let currentQuantity = parseInt(quantityCell.textContent)
 
             quantityCell.textContent = (currentQuantity + 1).toString()
-            priceCell.textContent = (price + parseFloat(courseData.price))
+            priceCell.textContent = (price + parseFloat(courseData.price)).toString()
 
             courseExists = true
             break
@@ -99,4 +110,26 @@ const deleteCourseFromLocalStorage = (courseTitle) =>{
         }
     }
     localStorage.setItem("coursesInCart", JSON.stringify(coursesInCart))
+}
+const filterCourses = (textIntroduced) =>{
+    const coursesResult = []
+    const textIntroducedLowerCase = textIntroduced.toLowerCase()
+    allCourses.forEach(course =>{
+        const courseName = course.querySelector("h4").textContent.toLowerCase()
+        if (courseName.includes(textIntroducedLowerCase)){
+            coursesResult.push(course)
+        }
+    })
+    return coursesResult
+}
+const displayFilteredCourses = (coursesToDisplay) =>{
+    clearCourses()
+    coursesToDisplay.forEach(course =>{
+        coursesContainer.innerHTML += course
+    })
+}
+const clearCourses = () =>{
+    while (coursesContainer.firstChild){
+        coursesContainer.remove(coursesContainer.firstChild)
+    }
 }
