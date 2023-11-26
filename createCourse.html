@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carrito</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+    <header id="header" class="header">
+        <div class="container">
+            <div class="row">
+                <div class="four columns">
+                    <img src="img/logo.png" id="logo">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container center-container">
+        <div class="row">
+            <div class="twelve columns">
+                <form id="formulario">
+                    <div>
+                        <label for="titulo">Título del curso:</label>
+                        <input type="text" id="titulo" name="titulo">
+                    </div>
+                    <div>
+                        <label for="profesor">Profesor:</label>
+                        <input type="text" id="profesor" name="profesor">
+                    </div>
+                    <div>
+                        <label for="precio">Precio del curso:</label>
+                        <input type="number" id="precio" name="precio">
+                    </div>
+                    <div>
+                        <label for="imagen">Enlace a la imagen:</label>
+                        <input type="text" id="imagen" name="imagen">
+                    </div>
+                    <input type="submit" id="submit-btn" value="Enviar" disabled>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/app2.js"></script>
+</body>
+</html>

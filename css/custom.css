@@ -179,3 +179,15 @@ display: block;
 margin-bottom: 10px;
 text-decoration: none;
 }
+.error-message{
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

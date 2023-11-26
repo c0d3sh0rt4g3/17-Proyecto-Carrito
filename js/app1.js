@@ -11,11 +11,34 @@ if (!(localStorage.getItem("coursesInCart"))){
 }
 
 const coursesInCart = JSON.parse(localStorage.getItem("coursesInCart"))
-
+const cookieValue = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('courseListData='))
+const displayCookieCourses = (course) =>{
+        coursesContainer.innerHTML += ` <div class="four columns">
+                                            <div class="card">
+                                                <img src=${course.imagen} class="imagen-curso u-full-width">
+                                                <div class="info-card">
+                                                    <h4>${course.titulo}</h4>
+                                                    <p>${course.profesor}</p>
+                                                    <img src="img/estrellas.png">
+                                                    <p class="precio">200 <span class="u-pull-right ">${course.precio}</span></p>
+                                                    <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id="2">Añadir al carrito</a>
+                                                </div>
+                                            </div>
+                                        </div>`
+    }
 document.addEventListener("DOMContentLoaded", () =>{
     coursesInCart.forEach(course =>{
         addToCart(course)
     })
+    if (cookieValue) {
+        const jsonString = cookieValue.split('=')[1]
+        let courseList = JSON.parse(jsonString)
+        courseList.forEach(course => {
+            displayCookieCourses(course)
+        })
+    }
 })
 
 addToCartButton.forEach(addButton =>{
