@@ -4,7 +4,7 @@ let tbody = document.querySelector("#lista-carrito tbody")
 const allCourses = document.querySelectorAll(".card")
 const searchBar = document.querySelector("#buscador")
 const searchForm = document.querySelector("#busqueda")
-const coursesContainer = document.querySelector(".row")
+const coursesContainer = document.querySelector("#lista-cursos")
 
 if (!(localStorage.getItem("coursesInCart"))){
     localStorage.setItem("coursesInCart", JSON.stringify([]))
@@ -34,6 +34,7 @@ searchForm.addEventListener("submit", (e) =>{
     e.preventDefault()
     const coursesToShow = filterCourses(searchBar.value)
     displayFilteredCourses(coursesToShow)
+
 })
 
 emptyCartButton.addEventListener("click", () =>{
@@ -122,14 +123,29 @@ const filterCourses = (textIntroduced) =>{
     })
     return coursesResult
 }
+
 const displayFilteredCourses = (coursesToDisplay) =>{
-    clearCourses()
+    coursesContainer.innerHTML = "<h1 id=\"encabezado\" class=\"encabezado\">Ofertas Black Fraidei</h1>"
     coursesToDisplay.forEach(course =>{
-        coursesContainer.innerHTML += course
+        const courseImg = course.querySelector("img").getAttribute("src")
+        const courseInfo = course.querySelector(".info-card")
+        const courseTitle = courseInfo.querySelector("h4").textContent
+        const courseTeacher = courseInfo.querySelector("p").textContent
+        const courseOldPrice = courseInfo.querySelector(".precio").textContent.split(" ")[0]
+        const coursePrice = courseInfo.querySelector(".precio").textContent.split(" ")[2]
+
+
+        coursesContainer.innerHTML += ` <div class="four columns">
+                                            <div class="card">
+                                                <img src=${courseImg} class="imagen-curso u-full-width">
+                                                <div class="info-card">
+                                                    <h4>${courseTitle}</h4>
+                                                    <p>${courseTeacher}</p>
+                                                    <img src="img/estrellas.png">
+                                                    <p class="precio">${courseOldPrice} <span class="u-pull-right ">${coursePrice}</span></p>
+                                                    <a href="#" class="u-full-width button-primary button input agregar-carrito" data-id="2">Añadir al carrito</a>
+                                                </div>
+                                            </div>
+                                        </div>`
     })
-}
-const clearCourses = () =>{
-    while (coursesContainer.firstChild){
-        coursesContainer.remove(coursesContainer.firstChild)
-    }
 }
